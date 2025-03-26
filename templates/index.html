@@ -1,0 +1,144 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard - Subscription Management{% endblock %}
+
+{% block content %}
+<div class="container-fluid">
+    <h2 class="mb-4">Dashboard</h2>
+    
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <div class="card bg-primary text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Total Users</h5>
+                    <h2 class="card-text">{{ users_count }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-success text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Active Subscriptions</h5>
+                    <h2 class="card-text">{{ subscriptions_count }}</h2>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-4 mb-4">
+            <div class="card bg-info text-white">
+                <div class="card-body">
+                    <h5 class="card-title">Subscription Types</h5>
+                    <h2 class="card-text">{{ subscription_types_count }}</h2>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Subscription Data Table -->
+    <div class="card mb-4">
+        <div class="card-header">
+            <h5 class="card-title mb-0">Subscription Overview</h5>
+        </div>
+        <div class="card-body">
+            <div class="table-responsive">
+                <table class="table table-striped">
+                    <thead>
+                        <tr>
+                            <th>Username</th>
+                            <th>Total Users</th>
+                            <th>Total Discount</th>
+                            {% for type in subscription_types %}
+                            <th>{{ type.name }}<br><small class="text-muted">(Users / Discount)</small></th>
+                            {% endfor %}
+                            <th>Notes</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for data in subscription_data %}
+                        <tr>
+                            <td>{{ data.username }}</td>
+                            <td>{{ data.total_users }}</td>
+                            <td>{{ data.total_discount }}</td>
+                            {% for type in subscription_types %}
+                            <td>
+                                {{ data.type_counts[type.name] }} / {{ data.type_discounts[type.name] }}
+                            </td>
+                            {% endfor %}
+                            <td>
+                                {% for note in data.notes %}
+                                {% if note %}
+                                <div class="small">{{ note }}</div>
+                                {% endif %}
+                                {% endfor %}
+                            </td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Recent Users</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Username</th>
+                                    <th>Name</th>
+                                    <th>Phone</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for user in recent_users %}
+                                <tr>
+                                    <td>{{ user.username }}</td>
+                                    <td>{{ user.name }}</td>
+                                    <td>{{ user.phone }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 mb-4">
+            <div class="card">
+                <div class="card-header">
+                    <h5 class="card-title mb-0">Recent Subscriptions</h5>
+                </div>
+                <div class="card-body">
+                    <div class="table-responsive">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>User</th>
+                                    <th>Type</th>
+                                    <th>Users Count</th>
+                                    <th>Discount</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for sub in recent_subscriptions %}
+                                <tr>
+                                    <td>{{ sub.user.name }}</td>
+                                    <td>{{ sub.sub_type.name }}</td>
+                                    <td>{{ sub.users_count }}</td>
+                                    <td>{{ sub.discount }}%</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

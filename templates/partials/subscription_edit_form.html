@@ -1,0 +1,44 @@
+<form hx-put="/subscriptions/{{ subscription.id }}"
+      hx-target="#subscription-row-{{ subscription.id }}"
+      hx-swap="outerHTML"
+      hx-indicator="#edit-indicator"
+      hx-trigger="submit"
+      hx-on::after-request="if(event.detail.failed) { alert('Error updating subscription: ' + event.detail.xhr.responseText); } else { document.getElementById('editModal').querySelector('[data-bs-dismiss]').click(); }"
+      hx-on::after-swap="document.getElementById('subscription-row-' + {{ subscription.id }}).scrollIntoView({behavior: 'smooth', block: 'center'});">
+    <div class="mb-3">
+        <label class="form-label">User</label>
+        <select class="form-control" name="user_id" required>
+            {% for user in users %}
+            <option value="{{ user.id }}" {% if user.id == subscription.user_id %}selected{% endif %}>
+                {{ user.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Type</label>
+        <select class="form-control" name="sub_type_id" required>
+            {% for type in types %}
+            <option value="{{ type.id }}" {% if type.id == subscription.sub_type_id %}selected{% endif %}>
+                {{ type.name }}
+            </option>
+            {% endfor %}
+        </select>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Users Count</label>
+        <input type="number" class="form-control" name="users_count" value="{{ subscription.users_count }}" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Discount (%)</label>
+        <input type="number" class="form-control" name="discount" value="{{ subscription.discount }}" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Notes</label>
+        <textarea class="form-control" name="notes">{{ subscription.notes }}</textarea>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+</form> 

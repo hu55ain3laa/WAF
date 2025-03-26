@@ -1,0 +1,26 @@
+<form hx-post="/users"
+      hx-target="#userTableBody"
+      hx-swap="beforeend"
+      hx-indicator="#edit-indicator"
+      hx-on::after-request="if(event.detail.failed) { alert('Error adding user: ' + event.detail.xhr.responseText); } else { $('#addModal').modal('hide'); }">
+    <div class="mb-3">
+        <label for="username" class="form-label">Username</label>
+        <input type="text" class="form-control" id="username" name="username" required autofocus>
+    </div>
+    <div class="mb-3">
+        <label for="name" class="form-label">Name</label>
+        <input type="text" class="form-control" id="name" name="name" required>
+    </div>
+    <div class="mb-3">
+        <label for="phone" class="form-label">Phone</label>
+        <input type="text" class="form-control" id="phone" name="phone" required>
+    </div>
+    <div class="mb-3">
+        <label for="notes" class="form-label">Notes</label>
+        <textarea class="form-control" id="notes" name="notes"></textarea>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Add User</button>
+    </div>
+</form> 

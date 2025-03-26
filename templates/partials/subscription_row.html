@@ -1,0 +1,27 @@
+<tr id="subscription-row-{{ subscription.id }}">
+    <td>{{ subscription.id }}</td>
+    <td>{{ subscription.user.name }}</td>
+    <td>{{ subscription.sub_type.name }}</td>
+    <td>{{ subscription.users_count }}</td>
+    <td>{{ subscription.discount }}%</td>
+    <td>{{ subscription.notes }}</td>
+    <td>
+        <button class="btn btn-sm btn-info"
+                hx-get="/subscriptions/{{ subscription.id }}/edit"
+                hx-target="#editModal .modal-body"
+                hx-trigger="click"
+                data-bs-toggle="modal" 
+                data-bs-target="#editModal">
+            <i class="fas fa-edit"></i>
+        </button>
+        <button class="btn btn-sm btn-danger"
+                hx-delete="/subscriptions/{{ subscription.id }}"
+                hx-confirm="Are you sure you want to delete this subscription?"
+                hx-target="#subscription-row-{{ subscription.id }}"
+                hx-swap="outerHTML"
+                hx-indicator="#delete-indicator"
+                hx-on::after-request="if(event.detail.failed) { alert('Error deleting subscription: ' + event.detail.xhr.responseText); }">
+            <i class="fas fa-trash"></i>
+        </button>
+    </td>
+</tr> 

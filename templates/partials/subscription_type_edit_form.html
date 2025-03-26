@@ -1,0 +1,16 @@
+<form hx-put="/subscription-types/{{ sub_type.id }}"
+      hx-target="#subtype-row-{{ sub_type.id }}"
+      hx-swap="outerHTML"
+      hx-indicator="#edit-indicator"
+      hx-trigger="submit"
+      hx-on::after-request="if(event.detail.failed) { alert('Error updating subscription type: ' + event.detail.xhr.responseText); } else { document.getElementById('editModal').querySelector('[data-bs-dismiss]').click(); }"
+      hx-on::after-swap="document.getElementById('subtype-row-' + {{ sub_type.id }}).scrollIntoView({behavior: 'smooth', block: 'center'});">
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" name="name" value="{{ sub_type.name }}" required>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+</form> 

@@ -1,0 +1,29 @@
+<form hx-post="/users/{{ user.id }}"
+      hx-target="tr#user-row-{{ user.id }}"
+      hx-swap="outerHTML"
+      hx-indicator="#edit-indicator"
+      hx-trigger="submit"
+      hx-on::after-request="if(event.detail.failed) { alert('Error updating user: ' + event.detail.xhr.responseText); } else { document.getElementById('editModal').querySelector('[data-bs-dismiss]').click(); }"
+      hx-on::after-swap="document.getElementById('user-row-' + {{ user.id }}).scrollIntoView({behavior: 'smooth', block: 'center'});">
+    <input type="hidden" name="_method" value="PUT">
+    <div class="mb-3">
+        <label class="form-label">Username</label>
+        <input type="text" class="form-control" name="username" value="{{ user.username }}" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Name</label>
+        <input type="text" class="form-control" name="name" value="{{ user.name }}" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Phone</label>
+        <input type="text" class="form-control" name="phone" value="{{ user.phone }}" required>
+    </div>
+    <div class="mb-3">
+        <label class="form-label">Notes</label>
+        <textarea class="form-control" name="notes">{{ user.notes }}</textarea>
+    </div>
+    <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+        <button type="submit" class="btn btn-primary">Update</button>
+    </div>
+</form> 
