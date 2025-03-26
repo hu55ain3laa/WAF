@@ -508,4 +508,4 @@ if __name__ == '__main__':
     with Session(engine) as session:
         if not session.exec(select(SubType)).all():
             seed()
-    uvicorn.run(app, host="127.0.0.1", port=8080)
+    uvicorn.run(app, host="127.0.0.1", port=8000)
